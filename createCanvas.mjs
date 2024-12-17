@@ -48,8 +48,9 @@ function compileShader(source, type, gl) {
 
 // Create a program given the vertex shader and fragment shader files
 async function createProgram(vertexShaderFile, fragmentShaderFile, gl) {
-  const vertexShaderSource = await fetchLocal(vertexShaderFile);
-  const fragmentShaderSource = await fetchLocal(fragmentShaderFile);
+  const pathnamePrefix = window.location.pathname === "/" ? "" : window.location.pathname;
+  const vertexShaderSource = await fetchLocal(pathnamePrefix + vertexShaderFile);
+  const fragmentShaderSource = await fetchLocal(pathnamePrefix + fragmentShaderFile);
 
   // Create the program
   const program = compileProgram(vertexShaderSource, fragmentShaderSource, gl);
