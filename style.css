@@ -1,31 +1,46 @@
+:root {
+  --bg: #ffffff;
+  --shadow: 0 2px 8px #00000044;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   height: 100%;
+  color: #333;
 }
 
 body {
   margin: 0;
+  padding-block: 2rem;
+  background-image: url("./bg.jpg");
 }
 
 main {
-  margin-top: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px #00000044;
+  box-shadow: var(--shadow);
+  background: var(--bg);
 }
 
 footer {
   margin-top: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px #00000044 inset;
+  box-shadow: var(--shadow) inset;
+  background: var(--bg);
 }
 
 canvas {
   aspect-ratio: 1 / 1;
   width: 100%;
+  max-width: 600px;
   display: block;
+  outline: 2px dashed;
+
+  &.pixelated {
+    image-rendering: pixelated;
+  }
 }
 
 .container {

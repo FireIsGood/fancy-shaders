@@ -1,60 +1,33 @@
-export function pointsToVertices(vertices) {
-  return new Float32Array(vertices.flat());
-}
-
-export function createProgram(vertexShaderSource, fragmentShaderSource, gl) {
-  // Compile shader
-  const vertexShader = compileShader(vertexShaderSource, gl.VERTEX_SHADER, gl);
-  const fragmentShader = compileShader(fragmentShaderSource, gl.FRAGMENT_SHADER, gl);
-
-  // Create program
-  const program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-
-  gl.linkProgram(program);
-
-  // Handle errors
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    const info = gl.getProgramInfoLog(program);
-    throw `Program compilation error!!!\n\n${info}`;
+// Register a callback function for a key press event
+const keypressCallbacks = {};
+export function registerKeypress(key, callback) {
+  if ($.isEmptyObject(keypressCallbacks)) {
+    $(window).on("keypress", (e) => {
+      if (keypressCallbacks.hasOwnProperty(e.keyCode)) {
+        keypressCallbacks[e.keyCode]();
+      }
+    });
   }
 
-  return program;
+  keypressCallbacks[key.charCodeAt(0)] = callback;
 }
 
-function compileShader(source, type, gl) {
-  // Create a shader
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
+export function createShaderManager(canvasControls, shaderList) {
+  let shaderIndex = 0;
 
-  // Compile it
-  gl.compileShader(shader);
-
-  // Handle errors
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    const info = gl.getShaderInfoLog(shader);
-    throw `Shader compilation error!!!\n\n${info}`;
-  }
-
-  return shader;
-}
-
-export function drawProgram(program, gl, context) {
-  // Update variables
-  const timeLoc = gl.getUniformLocation(program, "time");
-  gl.uniform1f(timeLoc, context.time);
-  context.time += 1 / 60;
-
-  // Draw
-  gl.drawArrays(gl.TRIANGLES, 0, context.vertices); // number of vertices
-
-  // recursive
-  requestAnimationFrame(() => drawProgram(program, gl, context));
-}
-
-export async function fetchLocal(src) {
-  const req = await fetch(src);
-  const text = await req.text();
-  return text;
+  const toggleShader = () => {
+    const stopped = canvasControls.toggle();
+    $("#shader-state").text(stopped ? "Paused" : "Playing");
+  };
+  const changeShader = async () => {
+    const entry = shaderList[((shaderIndex % shaderList.length) + shaderList.length) % shaderList.length];
+    $("#shader-name").text(entry.name);
+    return await canvasControls.changeShader(entry.file);
+  };
+  return {
+    toggleShader: toggleShader,
+    nextShader: () => changeShader(++shaderIndex),
+    prevShader: () => changeShader(--shaderIndex),
+    setShader: changeShader,
+  };
 }

@@ -1,68 +1,40 @@
-import { fetchLocal, createProgram, drawProgram } from "./util.mjs";
-import { pointsToVertices } from "./util.mjs";
+import { createCanvas } from "./createCanvas.mjs";
+import { createShaderManager } from "./util.mjs";
+import { registerKeypress } from "./util.mjs";
 
 const ASPECT_RATIO = 1 / 1;
-const CANVAS_SELECTOR = "#amogs";
+const CANVAS_WIDTH = 400;
+const CANVAS_HEIGHT = CANVAS_WIDTH / ASPECT_RATIO;
+const CANVAS_ELEMENT = "#amogs";
 
-let time = 0;
-
-$(window).on("resize", function () {
-  const canvasWidth = $(CANVAS_SELECTOR).parent().width();
-  const canvasHeight = Math.round(canvasWidth / ASPECT_RATIO);
-  $(CANVAS_SELECTOR).width(canvasWidth).height(canvasHeight);
-});
+const shaderList = [
+  { name: "Default", file: "/shaders/default.frag" },
+  { name: "Rings", file: "/shaders/rings.frag" },
+  { name: "Gradient", file: "/shaders/gradient.frag" },
+  { name: "Rainbow Spinner", file: "/shaders/rainbow_spinner.frag" },
+  { name: "Unpleasant Gradient", file: "/shaders/unpleasant_gradient.frag" },
+];
 
 $(async function () {
-  const canvasWidth = $(CANVAS_SELECTOR).parent().width();
-  const canvasHeight = canvasWidth / ASPECT_RATIO;
-
-  // Get contexts
-  const canvas = $(CANVAS_SELECTOR)[0];
-  const gl = canvas.getContext("webgl2");
-  const vertexBuffer = gl.createBuffer(); // vertex buffer
-
   // Set up canvas
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
-  gl.viewport(0, 0, canvasWidth, canvasHeight);
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+  const canvasControls = await createCanvas({
+    canvasSelector: CANVAS_ELEMENT,
+    canvasWidth: CANVAS_WIDTH,
+    canvasHeight: CANVAS_HEIGHT,
+  });
+  const { toggleShader, nextShader, prevShader, setShader } = createShaderManager(canvasControls, shaderList);
 
-  // buffer contexts
-  const vao = gl.createVertexArray();
-  gl.bindVertexArray(vao);
+  // Register key press handlers
+  registerKeypress("1", toggleShader);
+  registerKeypress("2", prevShader);
+  registerKeypress("3", nextShader);
+  registerKeypress("p", () => $(CANVAS_ELEMENT).toggleClass("pixelated"));
 
-  // ----------
-  // Draw stuff
-  // ----------
+  // Load first time state
+  const shaderNamesList = shaderList.map(({ name }) => $("<li></li>").text(name));
+  $("#shader-list").empty().append(shaderNamesList);
 
-  // Fill background
-  gl.clearColor(0.5, 0.5, 0.5, 1);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-
-  // Create square for the background
-  const triangleVertices = pointsToVertices([
-    [1, -1],
-    [1, 1],
-    [-1, -1],
-    [1, 1],
-    [-1, 1],
-    [-1, -1],
-  ]);
-  gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
-
-  // Create vertex shader
-  const vertexShaderSource = await fetchLocal("/shader.vert");
-  const fragmentShaderSource = await fetchLocal("/shader.frag");
-
-  // Create the program
-  const program = createProgram(vertexShaderSource, fragmentShaderSource, gl);
-  gl.useProgram(program);
-
-  // Pass in parameters
-  const vertexPositionLoc = gl.getAttribLocation(program, "vertex_position");
-  gl.enableVertexAttribArray(vertexPositionLoc);
-  gl.vertexAttribPointer(vertexPositionLoc, 2, gl.FLOAT, true, 0, 0);
-
-  // Draw vertex buffer
-  requestAnimationFrame(() => drawProgram(program, gl, { time: time, vertices: 6 }));
+  // Load first shader
+  const stopped = await setShader(0);
+  $("#shader-state").text(stopped ? "Paused" : "Playing");
 });
