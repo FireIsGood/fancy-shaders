@@ -12,7 +12,14 @@ body {
 
 main {
   margin-top: 2rem;
+  border-radius: 8px;
   box-shadow: 0 2px 8px #00000044;
+}
+
+footer {
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #00000044 inset;
 }
 
 canvas {
