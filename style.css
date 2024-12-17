@@ -108,3 +108,10 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+#shader-list .selected {
+  font-weight: bold;
+  &::marker {
+    font-weight: normal;
+  }
+}

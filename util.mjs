@@ -12,16 +12,26 @@ export function registerKeypress(key, callback) {
   keypressCallbacks[key.charCodeAt(0)] = callback;
 }
 
-export function createShaderManager(canvasControls, shaderList) {
+export function createShaderManager(canvasControls, shaderList, toggleCallback, changeCallback) {
   let shaderIndex = 0;
 
   const toggleShader = () => {
     const stopped = canvasControls.toggle();
-    $("#shader-state").text(stopped ? "Paused" : "Playing");
+    if (toggleCallback !== undefined) {
+      toggleCallback(stopped);
+    }
   };
   const changeShader = async () => {
-    const entry = shaderList[((shaderIndex % shaderList.length) + shaderList.length) % shaderList.length];
+    // Wrap index
+    shaderIndex = ((shaderIndex % shaderList.length) + shaderList.length) % shaderList.length;
+
+    const entry = shaderList[shaderIndex];
     $("#shader-name").text(entry.name);
+
+    if (changeCallback !== undefined) {
+      changeCallback(shaderIndex);
+    }
+
     return await canvasControls.changeShader(entry.file);
   };
   return {

@@ -15,6 +15,15 @@ const shaderList = [
   { name: "Unpleasant Gradient", file: "/shaders/unpleasant_gradient.frag" },
 ];
 
+function toggleCallback(stopped) {
+  $("#shader-state").text(stopped ? "Paused" : "Playing");
+}
+function changeCallback(index) {
+  const shaderList = $("#shader-list").children();
+  shaderList.removeClass("selected");
+  shaderList.eq(index).addClass("selected");
+}
+
 $(async function () {
   // Set up canvas
   const canvasControls = await createCanvas({
@@ -22,7 +31,12 @@ $(async function () {
     canvasWidth: CANVAS_WIDTH,
     canvasHeight: CANVAS_HEIGHT,
   });
-  const { toggleShader, nextShader, prevShader, setShader } = createShaderManager(canvasControls, shaderList);
+  const { toggleShader, nextShader, prevShader, setShader } = createShaderManager(
+    canvasControls,
+    shaderList,
+    toggleCallback,
+    changeCallback
+  );
 
   // Register key press handlers
   registerKeypress("1", toggleShader);
