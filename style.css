@@ -34,10 +34,19 @@ main {
 }
 
 footer {
+  display: flex;
+  justify-content: space-between;
   margin-top: 1.5rem;
   border-radius: 8px;
   box-shadow: var(--box-shadow);
   background: var(--bg);
+
+  & > * {
+    margin: 0;
+  }
+  & > :last-child {
+    text-align: right;
+  }
 }
 
 canvas {
