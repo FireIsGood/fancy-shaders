@@ -15,7 +15,10 @@ float time_loop(float offset) {
 }
 
 void main(void) {
-    vec2 coord_normalized = vec2(0.5) - texture_coordinates;
+    float dist_from_center = distance(vec2(0.5), texture_coordinates) * 10.;
+    vec2 off = vec2(cos(TAU * dist_from_center), sin(TAU * dist_from_center));
+
+    vec2 coord_normalized = vec2(0.5) - texture_coordinates + off;
     float angle = (atan(coord_normalized.y, coord_normalized.x) + PI) / 2.;
 
     vec3 color_out = vec3(angle / PI);
