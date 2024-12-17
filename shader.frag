@@ -15,16 +15,10 @@ float time_loop(float offset) {
 }
 
 void main(void) {
-    // frag_color = vec4((sin(TAU * time) + 1.0) / 2.0, texture_coordinates, 1.0);
-    float dist_from_center = distance(vec2(0.5), texture_coordinates) * 3.;
-    vec2 off = vec2(cos(TAU * dist_from_center), sin(TAU * dist_from_center)) / 3.;
-
-    vec2 coord_normalized = vec2(0.5) - texture_coordinates + off;
+    vec2 coord_normalized = vec2(0.5) - texture_coordinates;
     float angle = (atan(coord_normalized.y, coord_normalized.x) + PI) / 2.;
 
-    vec3 color_out = vec3(sin(angle), sin(angle), sin(angle));
-
-    // color_out = vec3(1. - texture_coordinates.y);
+    vec3 color_out = vec3(angle / PI);
 
     // Final output is set to 1.0 alpha
     frag_color = vec4(color_out, 1.0);
