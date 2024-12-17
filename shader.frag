@@ -15,7 +15,7 @@ float time_loop(float offset) {
 }
 
 void main(void) {
-    float dist_from_center = distance(vec2(0.5), texture_coordinates) * 10.;
+    float dist_from_center = distance(vec2(0.5), texture_coordinates) * 50.;
     vec2 off = vec2(cos(TAU * dist_from_center), sin(TAU * dist_from_center));
 
     vec2 coord_normalized = vec2(0.5) - texture_coordinates;
@@ -24,7 +24,7 @@ void main(void) {
     float spiral_val_normalized = mod(angle / PI + dist_from_center, 1.);
     float spiral_val = smoothstep(0., 1., (1. - sin(TAU * spiral_val_normalized)) / 2.);
 
-    vec3 color_out = vec3(spiral_val);
+    vec3 color_out = vec3(spiral_val, off);
 
     // Final output is set to 1.0 alpha
     frag_color = vec4(color_out, 1.0);
