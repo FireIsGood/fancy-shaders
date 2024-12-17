@@ -1,6 +1,15 @@
 :root {
   --bg: #ffffff;
-  --shadow: 0 2px 8px #00000044;
+  --form-fg: #ffffff;
+  --form-bg: #9a7e6f;
+  --form-bg-hover: #54473f;
+
+  --radius: 8px;
+
+  --box-shadow: 0 2px 8px #00000044;
+  --box-shadow-light: 0 0 4px #00000033;
+
+  --transition: 80ms ease;
 }
 
 * {
@@ -19,15 +28,15 @@ body {
 }
 
 main {
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  box-shadow: var(--box-shadow);
   background: var(--bg);
 }
 
 footer {
   margin-top: 1.5rem;
   border-radius: 8px;
-  box-shadow: var(--shadow) inset;
+  box-shadow: var(--box-shadow);
   background: var(--bg);
 }
 
@@ -40,6 +49,24 @@ canvas {
 
   &.pixelated {
     image-rendering: pixelated;
+  }
+}
+
+button {
+  color: var(--form-fg);
+  background-color: var(--form-bg);
+  border: unset;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  border-radius: var(--radius);
+  box-shadow: var(--box-shadow-light);
+
+  transition: background-color var(--transition);
+
+  &:hover {
+    background-color: var(--form-bg-hover);
   }
 }
 
@@ -58,4 +85,17 @@ canvas {
 #canvas-container {
   display: grid;
   place-items: center;
+}
+
+#shader-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+@media (width < 600px) {
+  #shader-controls {
+    grid-template-columns: 1fr;
+  }
 }

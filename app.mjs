@@ -29,6 +29,9 @@ $(async function () {
   registerKeypress("2", prevShader);
   registerKeypress("3", nextShader);
   registerKeypress("p", () => $(CANVAS_ELEMENT).toggleClass("pixelated"));
+  $("#shader-pause").click(toggleShader);
+  $("#shader-next").click(nextShader);
+  $("#shader-previous").click(prevShader);
 
   // Load first time state
   const shaderNamesList = shaderList.map(({ name }) => $("<li></li>").text(name));
