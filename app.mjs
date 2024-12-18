@@ -44,6 +44,8 @@ $(async function () {
   registerKeypress(" ", sm.toggleShader);
   registerKeypress("ArrowLeft", sm.prevShader);
   registerKeypress("ArrowRight", sm.nextShader);
+  registerKeypress("k", sm.prevShader);
+  registerKeypress("j", sm.nextShader);
   registerKeypress("p", () => $(CANVAS_ELEMENT).toggleClass("pixelated"));
   $("#shader-pause").click(sm.toggleShader);
   $("#shader-next").click(sm.nextShader);
