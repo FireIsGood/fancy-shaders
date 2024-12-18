@@ -29,12 +29,15 @@ export function createShaderManager(canvasControls, shaderList, toggleCallback, 
 
     const entry = shaderList[shaderIndex];
 
+    const ret = await canvasControls.changeShader(entry.file);
+
     if (changeCallback !== undefined) {
       changeCallback(shaderIndex, entry);
     }
 
-    return await canvasControls.changeShader(entry.file);
+    return ret;
   };
+
   return {
     toggleShader: toggleShader,
     nextShader: () => changeShader(++shaderIndex),
