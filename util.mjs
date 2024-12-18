@@ -2,15 +2,16 @@
 const keypressCallbacks = {};
 export function registerKeypress(key, callback) {
   if ($.isEmptyObject(keypressCallbacks)) {
-    $(window).on("keypress", (e) => {
+    $(window).on("keydown", (e) => {
       const noActiveFocus = e.target === document.body;
-      if (noActiveFocus && keypressCallbacks.hasOwnProperty(e.keyCode)) {
-        keypressCallbacks[e.keyCode]();
+      if (noActiveFocus && keypressCallbacks.hasOwnProperty(e.key)) {
+        e.preventDefault();
+        keypressCallbacks[e.key]();
       }
     });
   }
 
-  keypressCallbacks[key.charCodeAt(0)] = callback;
+  keypressCallbacks[key] = callback;
 }
 
 export function createShaderManager(canvasControls, shaderList, toggleCallback, changeCallback) {

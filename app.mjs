@@ -46,9 +46,9 @@ $(async function () {
   );
 
   // Register key press handlers
-  registerKeypress("1", toggleShader);
-  registerKeypress("2", prevShader);
-  registerKeypress("3", nextShader);
+  registerKeypress(" ", toggleShader);
+  registerKeypress("ArrowLeft", prevShader);
+  registerKeypress("ArrowRight", nextShader);
   registerKeypress("p", () => $(CANVAS_ELEMENT).toggleClass("pixelated"));
   $("#shader-pause").click(toggleShader);
   $("#shader-next").click(nextShader);
