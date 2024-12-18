@@ -16,6 +16,7 @@ const shaderList = [
   { name: "Rainbow Spinner", file: "./shaders/rainbow_spinner.frag" },
   { name: "Unpleasant Gradient", file: "./shaders/unpleasant_gradient.frag" },
   { name: "Unpleasant Gradient Spiral", file: "./shaders/unpleasant_gradient_spiral.frag" },
+  { name: "Tunnel", file: "./shaders/tunnel.frag" },
   { name: "Noise", file: "./shaders/noise.frag" },
 ];
 
