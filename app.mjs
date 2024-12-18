@@ -20,7 +20,8 @@ const shaderList = [
 function toggleCallback(stopped) {
   $("#shader-state").text(stopped ? "Paused" : "Playing");
 }
-function changeCallback(index) {
+function changeCallback(index, entry) {
+  $("#shader-name").text(entry.name);
   const shaderList = $("#shader-list").children();
   shaderList.removeClass("selected");
   shaderList.eq(index).addClass("selected");

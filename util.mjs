@@ -26,10 +26,9 @@ export function createShaderManager(canvasControls, shaderList, toggleCallback, 
     shaderIndex = ((shaderIndex % shaderList.length) + shaderList.length) % shaderList.length;
 
     const entry = shaderList[shaderIndex];
-    $("#shader-name").text(entry.name);
 
     if (changeCallback !== undefined) {
-      changeCallback(shaderIndex);
+      changeCallback(shaderIndex, entry);
     }
 
     return await canvasControls.changeShader(entry.file);
