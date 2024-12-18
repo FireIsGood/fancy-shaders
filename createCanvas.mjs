@@ -173,6 +173,8 @@ export async function createCanvas(userConfig) {
     canvas.width = width;
     canvas.height = height;
     gl.viewport(0, 0, width, height);
+    cancelAnimationFrame(animationFrameId);
+    runProgram(program, gl, context);
   };
 
   return {
