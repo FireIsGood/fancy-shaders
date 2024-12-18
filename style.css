@@ -25,6 +25,7 @@ body {
   margin: 0;
   padding: 2rem 1rem;
   background-image: url("./bg.jpg");
+  background-attachment: fixed;
 }
 
 main {
