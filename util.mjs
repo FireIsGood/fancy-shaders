@@ -3,7 +3,8 @@ const keypressCallbacks = {};
 export function registerKeypress(key, callback) {
   if ($.isEmptyObject(keypressCallbacks)) {
     $(window).on("keypress", (e) => {
-      if (keypressCallbacks.hasOwnProperty(e.keyCode)) {
+      const noActiveFocus = e.target === document.body;
+      if (noActiveFocus && keypressCallbacks.hasOwnProperty(e.keyCode)) {
         keypressCallbacks[e.keyCode]();
       }
     });
