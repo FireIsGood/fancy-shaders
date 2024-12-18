@@ -48,9 +48,8 @@ function compileShader(source, type, gl) {
 
 // Create a program given the vertex shader and fragment shader files
 async function createProgram(vertexShaderFile, fragmentShaderFile, gl) {
-  const pathnamePrefix = window.location.pathname === "/" ? "" : window.location.pathname;
-  const vertexShaderSource = await fetchLocal(pathnamePrefix + vertexShaderFile);
-  const fragmentShaderSource = await fetchLocal(pathnamePrefix + fragmentShaderFile);
+  const vertexShaderSource = await fetchLocal(vertexShaderFile);
+  const fragmentShaderSource = await fetchLocal(fragmentShaderFile);
 
   // Create the program
   const program = compileProgram(vertexShaderSource, fragmentShaderSource, gl);
@@ -101,8 +100,8 @@ export async function createCanvas(userConfig) {
     canvasWidth: 400, // Width in pixels
     canvasHeight: 400, // Height in pixels
     placeholderColor: [0.4, 0.4, 0.4, 1.0], // Placeholder for if no shader is drawn
-    vertexShader: "/shaders/default.vert", // Vertex shader file name
-    fragmentShader: "/shaders/default.frag", // Fragment shader file name
+    vertexShader: "./shaders/default.vert", // Vertex shader file name
+    fragmentShader: "./shaders/default.frag", // Fragment shader file name
   };
 
   const config = { ...defaultConfig, ...userConfig };
