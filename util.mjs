@@ -43,5 +43,6 @@ export function createShaderManager(canvasControls, shaderList, toggleCallback, 
     nextShader: () => changeShader(++shaderIndex),
     prevShader: () => changeShader(--shaderIndex),
     setShader: changeShader,
+    apiSetIndex: (i) => (shaderIndex = i),
   };
 }

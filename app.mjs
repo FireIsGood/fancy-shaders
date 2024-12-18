@@ -38,21 +38,17 @@ $(async function () {
     canvasWidth: CANVAS_WIDTH,
     canvasHeight: CANVAS_HEIGHT,
   });
-  const { toggleShader, nextShader, prevShader, setShader } = createShaderManager(
-    canvasControls,
-    shaderList,
-    toggleCallback,
-    changeCallback
-  );
+  const sm = createShaderManager(canvasControls, shaderList, toggleCallback, changeCallback);
 
   // Register key press handlers
-  registerKeypress(" ", toggleShader);
-  registerKeypress("ArrowLeft", prevShader);
-  registerKeypress("ArrowRight", nextShader);
+  registerKeypress(" ", sm.toggleShader);
+  registerKeypress("ArrowLeft", sm.prevShader);
+  registerKeypress("ArrowRight", sm.nextShader);
   registerKeypress("p", () => $(CANVAS_ELEMENT).toggleClass("pixelated"));
-  $("#shader-pause").click(toggleShader);
-  $("#shader-next").click(nextShader);
-  $("#shader-previous").click(prevShader);
+  $("#shader-pause").click(sm.toggleShader);
+  $("#shader-next").click(sm.nextShader);
+  $("#shader-previous").click(sm.prevShader);
+
   $("#canvas-size").on("input", (e) => {
     let value = Number(e.target.value);
     if (value > CANVAS_MAX_SIZE) value = CANVAS_MAX_SIZE;
@@ -61,8 +57,10 @@ $(async function () {
   });
   $("#canvas-pixilated").on("change", (e) => $(CANVAS_ELEMENT).toggleClass("pixelated", e.target.checked));
   $("#shader-select").on("change", (e) => {
-    const entry = shaderList[e.target.options[e.target.selectedIndex].value];
+    const index = e.target.options[e.target.selectedIndex].value;
+    const entry = shaderList[index];
     canvasControls.changeShader(entry.file);
+    sm.apiSetIndex(index);
   });
 
   // Load first time state
@@ -73,7 +71,7 @@ $(async function () {
   $("#shader-select").empty().append(shaderOptionList);
 
   // Load first shader
-  const stopped = await setShader(0);
+  const stopped = await sm.setShader(0);
   $("#shader-state").text(stopped ? "Paused" : "Playing");
   $("#canvas-size").val(CANVAS_WIDTH);
 });
