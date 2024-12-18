@@ -1,6 +1,5 @@
 import { createCanvas } from "./createCanvas.mjs";
-import { createShaderManager } from "./util.mjs";
-import { registerKeypress } from "./util.mjs";
+import { createShaderManager, registerKeypress } from "./util.mjs";
 
 const ASPECT_RATIO = 1 / 1;
 const CANVAS_WIDTH = 400;
