@@ -8,11 +8,13 @@ const CANVAS_HEIGHT = CANVAS_WIDTH / ASPECT_RATIO;
 const CANVAS_ELEMENT = "#amogs";
 
 const shaderList = [
-  { name: "Default", file: "/shaders/default.frag" },
-  { name: "Rings", file: "/shaders/rings.frag" },
   { name: "Gradient", file: "/shaders/gradient.frag" },
+  { name: "Tiles", file: "/shaders/tiles.frag" },
+  { name: "Rings", file: "/shaders/rings.frag" },
+  { name: "Rings Colorful", file: "/shaders/rings_colorful.frag" },
   { name: "Rainbow Spinner", file: "/shaders/rainbow_spinner.frag" },
   { name: "Unpleasant Gradient", file: "/shaders/unpleasant_gradient.frag" },
+  { name: "Unpleasant Gradient Spiral", file: "/shaders/unpleasant_gradient_spiral.frag" },
 ];
 
 function toggleCallback(stopped) {

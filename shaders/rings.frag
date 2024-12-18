@@ -19,12 +19,12 @@ float smooth_val(float val, float off) {
 }
 
 void main(void) {
-    float dist_from_center = distance(vec2(0.5), texture_coordinates);
+    float dist_from_center = distance(vec2(0.5), texture_coordinates) * 30. + time;
 
     vec3 color_out = vec3(
-            smooth_val(dist_from_center, 0.00),
-            smooth_val(dist_from_center, 0.15),
-            smooth_val(dist_from_center, 0.25));
+            smooth_val(dist_from_center, 0.),
+            smooth_val(dist_from_center, 0.),
+            smooth_val(dist_from_center, 0.));
 
     // Final output is set to 1.0 alpha
     frag_color = vec4(color_out, 1.0);
