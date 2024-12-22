@@ -24,12 +24,17 @@ const shaderList = [
 function toggleCallback(stopped) {
   $("#shader-state").text(stopped ? "Paused" : "Playing");
 }
-function changeCallback(index, entry) {
+function changeCallback(index, entry, error) {
   $("#shader-name").text(entry.name);
   const shaderList = $("#shader-list").children();
   shaderList.removeClass("selected");
   shaderList.eq(index).addClass("selected");
   $("#shader-select").val(index).select();
+
+  if (error) {
+    const errorText = $("<pre/>").text(error);
+    $("#shader-name").html(errorText);
+  }
 }
 
 $(async function () {
