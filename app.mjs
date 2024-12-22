@@ -18,6 +18,7 @@ const shaderList = [
   { name: "Unpleasant Gradient Spiral", file: "./shaders/unpleasant_gradient_spiral.frag" },
   { name: "Tunnel", file: "./shaders/tunnel.frag" },
   { name: "Noise", file: "./shaders/noise.frag" },
+  { name: "TEMPLATE", file: "./shaders/template.frag" },
 ];
 
 function toggleCallback(stopped) {
