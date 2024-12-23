@@ -22,13 +22,15 @@ html {
 }
 
 body {
+  display: block flow-root;
   margin: 0;
-  padding: 2rem 1rem;
+  padding-inline: 1rem;
   background-image: url("./bg.jpg");
   background-attachment: fixed;
 }
 
 main {
+  margin-block: 2rem;
   border-radius: var(--radius);
   box-shadow: var(--box-shadow);
   background: var(--bg);
